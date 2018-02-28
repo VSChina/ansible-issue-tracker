@@ -1,0 +1,6 @@
+{
+    "observer": {
+        "repo": "https://github.com/ansible/Ansible",
+        "labels": ["azure"]
+    }
+}
