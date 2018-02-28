@@ -1,15 +1,9 @@
 'use strict'
 
-require('babel-polyfill')
-
-import Observer from './observer.js'
-
-var config = require('../config.json');
+import IssueTracker from './issueTracker.js';
 
 (async function () {
-    // 1. init tags
-    // 2. sync issues from origin repo
-    var observer = new Observer(config.observer);
-    await observer.process();
-    // 3. triage issues and prs
+    var config = require('../config.json');
+    var issueTracker = new IssueTracker(config);
+    await issueTracker.process();
 })()

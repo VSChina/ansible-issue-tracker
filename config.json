@@ -2,5 +2,15 @@
     "observer": {
         "repo": "https://github.com/ansible/Ansible",
         "labels": ["azure"]
+    },
+    "dataStore": {
+        "repo": "https://github.com/yuwzho/ansible-issue-tracker",
+        "branch": "state-record",
+        "filePath": "issue-state.json",
+        "credential_name": "github_token"
+    },
+    "project": {
+        "repo": "https://github.com/yuwzho/ansible-issue-tracker",
+        "credential_name": "github_token"
     }
 }
