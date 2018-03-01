@@ -43,7 +43,7 @@ class Github {
                 branch: branch})
             return response.data
         } catch (error) {
-            console.error(error.HttpError.message)
+            throw error
         }
 
     }
@@ -61,8 +61,7 @@ class Github {
                 branch: branch});
             return response.data;
         } catch (error) {
-            console.log(error)
-            throw error.HttpError
+            throw error;
         }
     }
 }
