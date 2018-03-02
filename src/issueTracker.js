@@ -38,8 +38,10 @@ class IssueTracker {
             var item = dicts[key];
             // details should contains: issueId, projectId, title, rawUrl, comment, labels, assign
             var details = await filter(key, item, observer);
-            dicts[key]['projectId'] = await monitor.createOrUpdateItem(details);
-            await timeout(5000);
+            if (details) {
+                dicts[key]['projectId'] = await monitor.createOrUpdateItem(details);
+                await timeout(5000);
+            }
         }
         return dicts;
     }

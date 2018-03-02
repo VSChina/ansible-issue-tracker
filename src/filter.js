@@ -16,40 +16,44 @@ async function filter(id, item, observer) {
     var labels = item.labels;
     labels.push(item.type);
 
-    var details = await observer.getTimeline(id);
-    var filtered = details.filter(function (x) {
-        return (['commented', 'cross-referenced', 'merged', 'referenced', 'renamed'].indexOf(x.event) > -1
-            && ['kyliel', 'yuwzho', 'zikalino'].indexOf(x.actor.login) > -1);
-    });
-
-
-    var date = details[0].updated_at || details[0].created_at;
-    if (filtered.length === 0) {
-        labels.push('never_replied');
-    } else {
-        var lastItem = filtered[filtered.length - 1];
-        date = lastItem.updated_at || lastItem.created_at;
-    }
-    var datetime = Date.parse(date);
-    var notUpdatedFor = Math.floor((Date.now() - datetime) / (1000 * 60 * 60 * 24));
-    // 2 5 10 30
-    if (notUpdatedFor >= 2 && notUpdatedFor < 5) {
-        labels.push('>2days');
-    } else if (notUpdatedFor >= 5 && notUpdatedFor < 10) {
-        labels.push('>5days');
-    } else if (notUpdatedFor >= 10 && notUpdatedFor < 30) {
-        labels.push('>10days');
-    } else if (notUpdatedFor >= 30){
-        labels.push('>30days');
-    }
-    return {
-        issueId: id,
-        projectId: item.projectId,
-        title: item.title,
-        rawUrl: item.url,
-        labels: labels,
-        assign: '',
-        comment: ''
+    try {
+        var details = await observer.getTimeline(id);
+        var filtered = details.filter(function (x) {
+            return (['commented', 'cross-referenced', 'merged', 'referenced', 'renamed'].indexOf(x.event) > -1
+                && ['kyliel', 'yuwzho', 'zikalino'].indexOf(x.actor.login) > -1);
+        });
+    
+    
+        var date = details[0].updated_at || details[0].created_at;
+        if (filtered.length === 0) {
+            labels.push('never_replied');
+        } else {
+            var lastItem = filtered[filtered.length - 1];
+            date = lastItem.updated_at || lastItem.created_at;
+        }
+        var datetime = Date.parse(date);
+        var notUpdatedFor = Math.floor((Date.now() - datetime) / (1000 * 60 * 60 * 24));
+        // 2 5 10 30
+        if (notUpdatedFor >= 2 && notUpdatedFor < 5) {
+            labels.push('>2days');
+        } else if (notUpdatedFor >= 5 && notUpdatedFor < 10) {
+            labels.push('>5days');
+        } else if (notUpdatedFor >= 10 && notUpdatedFor < 30) {
+            labels.push('>10days');
+        } else if (notUpdatedFor >= 30){
+            labels.push('>30days');
+        }
+        return {
+            issueId: id,
+            projectId: item.projectId,
+            title: item.title,
+            rawUrl: item.url,
+            labels: labels,
+            assign: '',
+            comment: ''
+        }
+    } catch (error) {
+        console.error(error);
     }
 }
 

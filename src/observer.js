@@ -7,7 +7,15 @@ class Observer {
             labels: []
         }, config);
         this.repo = Github.parseRepoUrl(this.config.repo);
-        this.github = new Github();
+        if (!this.config.credential_name) {
+            var credential = process.env[this.config.credential_name];
+            if (!credential) {
+                panic('cannot load environment variable ${' + this.config.credential_name + '}');
+            }
+            this.github = new Github(credential);
+        }else{
+            this.github = new Github();
+        }
     }
 
     async getLatestData() {
