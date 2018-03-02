@@ -1,7 +1,7 @@
 {
     "observer": {
         "repo": "https://github.com/ansible/Ansible",
-        "labels": ["azure"]
+        "labels": ["azure", "feature_pull_request", "support:core", "inventory"]
     },
     "dataStore": {
         "repo": "https://github.com/yuwzho/ansible-issue-tracker",

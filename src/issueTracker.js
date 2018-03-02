@@ -2,6 +2,7 @@ import Observer from './observer.js'
 import GithubDataStore from './githubDataStore.js'
 import GithubMonitor from './githubMonitor.js'
 import {filter} from './filter.js'
+import { timeout } from './util';
 
 class IssueTracker {
     constructor(config) {
@@ -36,8 +37,9 @@ class IssueTracker {
             var key  = keys[i];
             var item = dicts[key];
             // details should contains: issueId, projectId, title, rawUrl, comment, labels, assign
-            var details = filter(key, item, observer);
+            var details = await filter(key, item, observer);
             dicts[key]['projectId'] = await monitor.createOrUpdateItem(details);
+            await timeout(5000);
         }
         return dicts;
     }

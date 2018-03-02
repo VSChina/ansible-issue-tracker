@@ -28,6 +28,7 @@ class GithubDataStore extends AbstractDataStore {
             var response = await this.github.getContent(repo, branch, filePath);
             result = JSON.parse(new Buffer(response.content, 'base64').toString());
             this.sha = response.sha;
+            console.log('dataStore sha is ' + this.sha)
             // console.log(response)
         } catch (err) {
             console.log(err.status)
@@ -39,7 +40,8 @@ class GithubDataStore extends AbstractDataStore {
         if (!result) {
             result = {};
             var response = await this.github.createFile(repo, branch, filePath, '{}');
-            this.sha = response.sha;          
+            this.sha = response.content.sha;
+            console.log('dataStore sha is ' + this.sha)
         }
 
         return result

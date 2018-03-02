@@ -4,4 +4,8 @@ function panic(msg) {
     process.exit(-1);
 }
 
-export { panic }
+function timeout(ms) {
+    return new Promise(res => setTimeout(res, ms));
+}
+
+export { panic, timeout }

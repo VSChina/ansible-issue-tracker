@@ -115,6 +115,21 @@ class Github {
             throw error;
         }
     }
+
+    async getEventsTimeline(repo, number) {
+        var repoInstance = Github.parseRepoUrl(repo);
+        try {
+            var response = await this.octokit.issues.getEventsTimeline({
+                owner: repoInstance.user,
+                repo: repoInstance.name,
+                issue_number: number,
+                per_page: 100
+                });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default Github;

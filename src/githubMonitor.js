@@ -37,6 +37,7 @@ class GithubMonitor extends AbstractMonitor {
                 /* create */
                 var issue = await this.github.createIssue(this.config.repo, item.title, body, null, item.labels)
                 item['projectId'] = issue.number;
+                console.log('create ' + issue.html_url);
             } else {
                 this.github.updateIssue(this.config.repo, item.projectId, item.title, body, null, item.labels)
             }
