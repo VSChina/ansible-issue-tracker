@@ -26,9 +26,9 @@ class GithubDataStore extends AbstractDataStore {
         var result;
         try {
             var response = await this.github.getContent(repo, branch, filePath);
-            result = new Buffer(response.content, 'base64').toString();
+            result = JSON.parse(new Buffer(response.content, 'base64').toString());
             this.sha = response.sha;
-            console.log(response)
+            // console.log(response)
         } catch (err) {
             console.log(err.status)
             if (err.code != 404) {

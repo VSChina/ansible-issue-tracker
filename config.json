@@ -5,11 +5,11 @@
     },
     "dataStore": {
         "repo": "https://github.com/yuwzho/ansible-issue-tracker",
-        "branch": "state-record",
+        "branch": "state",
         "filePath": "issue-state.json",
         "credential_name": "github_token"
     },
-    "project": {
+    "monitor": {
         "repo": "https://github.com/yuwzho/ansible-issue-tracker",
         "credential_name": "github_token"
     }

@@ -36,6 +36,7 @@ class Github {
         var repoInstance = Github.parseRepoUrl(repo);
         try {
             var response= await this.octokit.repos.createFile({
+                owner: repoInstance.user,
                 repo: repoInstance.name,
                 path: file,
                 message: 'create a new file',
@@ -59,6 +60,56 @@ class Github {
                 content: new Buffer(content).toString('base64'),
                 sha: sha,
                 branch: branch});
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async createIssue(repo, title, body, assign, labels) {
+        var repoInstance = Github.parseRepoUrl(repo);
+        try {
+            var response = await this.octokit.issues.create({
+                owner: repoInstance.user,
+                repo: repoInstance.name,
+                title: title,
+                body: body,
+                assignee: assign, 
+                labels: labels
+                });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateIssue(repo, number,  title, body, assign, labels) {
+        var repoInstance = Github.parseRepoUrl(repo);
+        try {
+            var response = await this.octokit.issues.edit({
+                owner: repoInstance.user,
+                repo: repoInstance.name,
+                number: number,
+                title: title,
+                body: body,
+                assignee: assign, 
+                labels: labels
+                });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async commentIssue(repo, number, comment) {
+        var repoInstance = Github.parseRepoUrl(repo);
+        try {
+            var response = await this.octokit.issues.createComment({
+                owner: repoInstance.user,
+                repo: repoInstance.name,
+                number: number,
+                body: comment
+                });
             return response.data;
         } catch (error) {
             throw error;
