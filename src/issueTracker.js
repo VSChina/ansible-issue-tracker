@@ -31,7 +31,6 @@ class IssueTracker {
 
     async displayItems(dicts) {
         var observer = this.observer;
-        var monitor = new GithubMonitor(this.config.monitor);
         var keys = Object.keys(dicts);
         for (let i = 0; i < keys.length; i++) {
             var key  = keys[i];
@@ -39,14 +38,20 @@ class IssueTracker {
             // details should contains: issueId, projectId, title, rawUrl, comment, labels, assign
             var details = await filter(key, item, observer);
             if (details) {
-                dicts[key]['projectId'] = await monitor.createOrUpdateItem(details);
+                dicts[key]['projectId'] = await this.monitor.createOrUpdateItem(details);
                 await timeout(5000);
             }
         }
         return dicts;
     }
 
-    async closeUnnecessaryItems(datas) {}
+    async closeUnnecessaryItems(datas) {
+        Object.keys(datas).forEach(function(key) {
+            var item = datas[key];
+            if (!item.projectId) { return; }
+            this.monitor.closeItem();
+        });
+    }
 
     async process() {
         // 1. init github repos
@@ -58,12 +63,12 @@ class IssueTracker {
         // 3. merge new data and origin data
         var originData = await originDataTask;
         var [mergedData, restData] = this._mergeState(originData, apiData);
-        // 4. triage issues and prs
-        var mergedDataTask = this.displayItems(mergedData);
+        this.monitor = new GithubMonitor(this.config.monitor);
         // 5. close restData
         this.closeUnnecessaryItems(restData);
-        // 6. save the latest data
-        mergedData = await mergedDataTask;
+        // 4. triage issues and prs        
+        mergedData = await this.displayItems(mergedData);
+        // 6. save the latest data        
         dataStore.save(mergedData);
     }
 }

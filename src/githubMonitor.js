@@ -20,6 +20,10 @@ class GithubMonitor extends AbstractMonitor {
         this.github = new Github(credential);
     }
 
+    async closeItem(id) {
+        
+    }
+
     async createOrUpdateItem(item) {
         /**
          * details should contains:
