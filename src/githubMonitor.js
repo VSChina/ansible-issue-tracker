@@ -21,7 +21,11 @@ class GithubMonitor extends AbstractMonitor {
     }
 
     async closeItem(id) {
-        
+        try {
+            return await this.github.closeIssue(this.config.repo, id);
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     async createOrUpdateItem(item) {

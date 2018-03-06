@@ -46,10 +46,11 @@ class IssueTracker {
     }
 
     async closeUnnecessaryItems(datas) {
+        var monitor = this.monitor;
         Object.keys(datas).forEach(function(key) {
             var item = datas[key];
             if (!item.projectId) { return; }
-            this.monitor.closeItem();
+            monitor.closeItem(item.projectId);
         });
     }
 

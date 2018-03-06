@@ -101,6 +101,21 @@ class Github {
         }
     }
 
+    async closeIssue(repo, number) {
+        var repoInstance = Github.parseRepoUrl(repo);
+        try {
+            var response = await this.octokit.issues.edit({
+                owner: repoInstance.user,
+                repo: repoInstance.name,
+                number: number,
+                state: 'closed'
+                });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async commentIssue(repo, number, comment) {
         var repoInstance = Github.parseRepoUrl(repo);
         try {
