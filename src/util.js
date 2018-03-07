@@ -8,4 +8,10 @@ function timeout(ms) {
     return new Promise(res => setTimeout(res, ms));
 }
 
-export { panic, timeout }
+function filterLabelNameFromResponse(labels) {
+    return labels.map(function(x) {
+        return x.name;
+    })
+}
+
+export { panic, timeout, filterLabelNameFromResponse }

@@ -2,7 +2,7 @@ import Observer from './observer.js'
 import GithubDataStore from './githubDataStore.js'
 import GithubMonitor from './githubMonitor.js'
 import {filter} from './filter.js'
-import { timeout } from './util';
+import { timeout, filterLabelNameFromResponse } from './util';
 
 class IssueTracker {
     constructor(config) {
@@ -16,11 +16,12 @@ class IssueTracker {
             const data = latestData[i];
             var id = data.number;
             var origin = originData[id] || {};
+            origin['storedLabels'] = origin.labels || []
             result[id] = Object.assign(origin, {
                 url: data.html_url,
                 title: data.title,
                 type: data.pull_request ? 'pr' : 'issue',
-                labels: data.labels.map((x) => { return x.name })
+                labels: filterLabelNameFromResponse(data.labels)
             })
             if (originData[id]) {
                 delete originData[id];
@@ -30,13 +31,12 @@ class IssueTracker {
     }
 
     async displayItems(dicts) {
-        var observer = this.observer;
         var keys = Object.keys(dicts);
         for (let i = 0; i < keys.length; i++) {
             var key  = keys[i];
             var item = dicts[key];
             // details should contains: issueId, projectId, title, rawUrl, comment, labels, assign
-            var details = await filter(key, item, observer);
+            var details = await filter(key, item, this.observer, this.monitor);
             if (details) {
                 dicts[key]['projectId'] = await this.monitor.createOrUpdateItem(details);
                 await timeout(5000);

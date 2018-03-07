@@ -1,4 +1,4 @@
-async function filter(id, item, observer) {
+async function filter(id, item, observer, monitor) {
     /**
      * details should contains:
      * issueId,
@@ -12,6 +12,8 @@ async function filter(id, item, observer) {
     if (!id) {
         throw 'id should not be empty';
     }
+
+    var storedLables = item.storedLabels;
 
     var labels = item.labels;
     labels.push(item.type);
@@ -43,12 +45,21 @@ async function filter(id, item, observer) {
         } else if (notUpdatedFor >= 30){
             labels.push('>30days');
         }
+
+        var existingLabels = await monitor.getIssueLabels(item.projectId) || [];
+        // finalLabels = exiting - stored + lables
+        var finalLabels = existingLabels.filter(function(x){
+            return storedLables.indexOf(x) < 0;
+        }).concat(labels);
+
+
         return {
             issueId: id,
             projectId: item.projectId,
             title: item.title,
             rawUrl: item.url,
-            labels: labels,
+            labels: finalLabels,
+            storedLabels: labels,
             assign: '',
             comment: ''
         }

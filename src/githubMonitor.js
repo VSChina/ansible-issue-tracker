@@ -1,5 +1,5 @@
 import AbstractMonitor from './abstractMonitor.js'
-import { panic } from './util'
+import { panic, filterLabelNameFromResponse } from './util'
 import Github from './github.js'
 
 class GithubMonitor extends AbstractMonitor {
@@ -57,6 +57,15 @@ class GithubMonitor extends AbstractMonitor {
             return item.projectId;
         } catch (error) {
             console.error(error);
+        }
+    }
+
+    async getIssueLabels(number) {
+        try {
+            var response = await this.github.getIssueLabels(this.config.repo, number);
+            return filterLabelNameFromResponse(response);
+        } catch (error) {
+            return [];
         }
     }
 }

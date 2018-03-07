@@ -145,6 +145,20 @@ class Github {
             throw error;
         }
     }
+
+    async getIssueLabels(repo, number) {
+        var repoInstance = Github.parseRepoUrl(repo);
+        try {
+            var response = await this.octokit.issues.getIssueLabels({
+                owner: repoInstance.user,
+                repo: repoInstance.name,
+                number: number
+                });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 export default Github;
