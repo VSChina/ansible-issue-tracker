@@ -83,7 +83,7 @@ class Github {
         }
     }
 
-    async updateIssue(repo, number,  title, body, assign, labels) {
+    async updateIssue(repo, number, title, body, labels) {
         var repoInstance = Github.parseRepoUrl(repo);
         try {
             var response = await this.octokit.issues.edit({
@@ -92,7 +92,7 @@ class Github {
                 number: number,
                 title: title,
                 body: body,
-                assignee: assign, 
+                // assignee: assign, 
                 labels: labels
                 });
             return response.data;
