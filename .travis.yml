@@ -10,7 +10,7 @@ install:
   - npm install
 
 script:
-  - npm start
+  - travis_wait 50 npm start
 
 matrix:
   fast_finish: true
