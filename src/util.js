@@ -11,7 +11,7 @@ function timeout(ms) {
 function filterLabelNameFromResponse(labels) {
     return labels.map(function(x) {
         return x.name;
-    })
+    });
 }
 
-export { panic, timeout, filterLabelNameFromResponse }
+export { panic, timeout, filterLabelNameFromResponse };

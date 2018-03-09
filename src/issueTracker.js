@@ -1,7 +1,7 @@
-import Observer from './observer.js'
-import GithubDataStore from './githubDataStore.js'
-import GithubMonitor from './githubMonitor.js'
-import {filter} from './filter.js'
+import Observer from './observer.js';
+import GithubDataStore from './githubDataStore.js';
+import GithubMonitor from './githubMonitor.js';
+import {filter} from './filter.js';
 import { timeout, filterLabelNameFromResponse } from './util';
 
 class IssueTracker {
@@ -16,13 +16,13 @@ class IssueTracker {
             const data = latestData[i];
             var id = data.number;
             var origin = originData[id] || {};
-            origin['storedLabels'] = origin.labels || []
+            origin['storedLabels'] = origin.labels || [];
             result[id] = Object.assign(origin, {
                 url: data.html_url,
                 title: data.title,
                 type: data.pull_request ? 'pr' : 'issue',
                 labels: filterLabelNameFromResponse(data.labels)
-            })
+            });
             if (originData[id]) {
                 delete originData[id];
             }
@@ -67,9 +67,9 @@ class IssueTracker {
         this.monitor = new GithubMonitor(this.config.monitor);
         // 5. close restData
         this.closeUnnecessaryItems(restData);
-        // 4. triage issues and prs        
+        // 4. triage issues and prs
         mergedData = await this.displayItems(mergedData);
-        // 6. save the latest data        
+        // 6. save the latest data
         dataStore.save(mergedData);
     }
 }

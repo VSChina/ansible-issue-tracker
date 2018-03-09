@@ -24,8 +24,7 @@ async function filter(id, item, observer, monitor) {
             return (['commented', 'cross-referenced', 'merged', 'referenced', 'renamed'].indexOf(x.event) > -1
                 && ['kyliel', 'yuwzho', 'zikalino'].indexOf(x.actor.login) > -1);
         });
-    
-    
+
         var date = details[0].updated_at || details[0].created_at;
         if (filtered.length === 0) {
             labels.push('never_replied');
@@ -52,7 +51,6 @@ async function filter(id, item, observer, monitor) {
             return storedLables.indexOf(x) < 0;
         }).concat(labels);
 
-
         return {
             issueId: id,
             projectId: item.projectId,
@@ -62,10 +60,10 @@ async function filter(id, item, observer, monitor) {
             storedLabels: labels,
             assign: '',
             comment: ''
-        }
+        };
     } catch (error) {
         console.error(error);
     }
 }
 
-export { filter }
+export { filter };

@@ -1,6 +1,6 @@
-import AbstractMonitor from './abstractMonitor.js'
-import { panic, filterLabelNameFromResponse } from './util'
-import Github from './github.js'
+import AbstractMonitor from './abstractMonitor.js';
+import { panic, filterLabelNameFromResponse } from './util';
+import Github from './github.js';
 
 class GithubMonitor extends AbstractMonitor {
     constructor(config) {
@@ -24,7 +24,7 @@ class GithubMonitor extends AbstractMonitor {
         try {
             return await this.github.closeIssue(this.config.repo, id);
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
     }
 
@@ -43,13 +43,13 @@ class GithubMonitor extends AbstractMonitor {
             var body = '[' + item.rawUrl + '](' + item.rawUrl + ')';
             if (!item.projectId) {
                 /* create */
-                var issue = await this.github.createIssue(this.config.repo, item.title, body, null, item.labels)
+                var issue = await this.github.createIssue(this.config.repo, item.title, body, null, item.labels);
                 item['projectId'] = issue.number;
                 console.log('create ' + issue.html_url);
             } else {
-                this.github.updateIssue(this.config.repo, item.projectId, item.title, body, item.labels)
+                this.github.updateIssue(this.config.repo, item.projectId, item.title, body, item.labels);
             }
-    
+
             if (item.comment) {
                 this.github.commentIssue(this.config.repo, item.projectId, item.comment);
             }

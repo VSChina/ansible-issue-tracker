@@ -25,15 +25,15 @@ class Observer {
         }
 
         if (labelQuery === '') {
-            console.warn("You don't specific any labels, this will sync all the issues.");
+            console.warn('You don\'t specific any labels, this will sync all the issues.');
         }
 
         var query = labelQuery + 'is:open+user:' + this.repo.user + '+repo:' + this.repo.name;
         var result = [];
-        var total = 2, per_page = 100;
+        var total = 2, perPage = 100;
         for (var page = 1; page < total; page++) { /* github search is 1 index */
-            var searchResult = await this.github.search(query, page, per_page);
-            total = searchResult.total_count / per_page + 1;
+            var searchResult = await this.github.search(query, page, perPage);
+            total = searchResult.total_count / perPage + 1;
             result = result.concat(searchResult.items);
         }
         return result;

@@ -1,6 +1,6 @@
-import { panic } from './util.js'
-import AbstractDataStore from "./abstractDataStore.js"
-import Github from './github.js'
+import { panic } from './util.js';
+import AbstractDataStore from './abstractDataStore.js';
+import Github from './github.js';
 import { Buffer } from 'buffer';
 
 class GithubDataStore extends AbstractDataStore {
@@ -8,7 +8,7 @@ class GithubDataStore extends AbstractDataStore {
         super(config);
         this.config = Object.assign({
             sha: undefined
-        }, this.config)
+        }, this.config);
 
         if (!this.config.credential_name) {
             panic('dataStore credential_name cannot be empty');
@@ -28,10 +28,10 @@ class GithubDataStore extends AbstractDataStore {
             var response = await this.github.getContent(repo, branch, filePath);
             result = JSON.parse(new Buffer(response.content, 'base64').toString());
             this.sha = response.sha;
-            console.log('dataStore sha is ' + this.sha)
+            console.log('dataStore sha is ' + this.sha);
             // console.log(response)
         } catch (err) {
-            console.log(err.status)
+            console.log(err.status);
             if (err.code != 404) {
                 result = {};
             }
@@ -41,15 +41,15 @@ class GithubDataStore extends AbstractDataStore {
             result = {};
             var response = await this.github.createFile(repo, branch, filePath, '{}');
             this.sha = response.content.sha;
-            console.log('dataStore sha is ' + this.sha)
+            console.log('dataStore sha is ' + this.sha);
         }
 
-        return result
+        return result;
     }
 
     async save(content) {
         var { repo, branch, filePath } = this.config;
-        console.log(this.sha)
+        console.log(this.sha);
         try {
             await this.github.updateFile(repo, branch, filePath, JSON.stringify(content), this.sha);
         } catch (error) {

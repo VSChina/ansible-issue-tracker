@@ -1,0 +1,33 @@
+{
+    // I want to use babel-eslint for parsing!
+    "parser": "babel-eslint",
+    "env": {
+      // in CommonJS
+      "node": true
+    },
+    // To give you an idea how to override rule options:
+    "rules": {
+      "quotes": [2, "single"],
+      "semi": 2,
+      "indent": "error",
+      "no-trailing-spaces": "error",
+      "linebreak-style": 0,
+      "no-mixed-requires": [0],
+      "no-underscore-dangle": [0],
+      "eol-last": [
+        "error",
+        "always"
+      ],
+      "max-len": [
+        "error",
+        150
+      ],
+      "no-console": 0,
+      "camelcase": [
+        "error",
+        {
+          "properties": "always"
+        }
+      ]
+    }
+  }

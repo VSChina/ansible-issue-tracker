@@ -1,8 +1,8 @@
-var parse = require('parse-github-repo-url')
+var parse = require('parse-github-repo-url');
 
 class Github {
     constructor(token) {
-        this.octokit = require('@octokit/rest')()
+        this.octokit = require('@octokit/rest')();
         if (token) {
             this.octokit.authenticate({
                 type: 'token',
@@ -15,20 +15,20 @@ class Github {
         return {
             name: repo,
             user: user
-        }
+        };
     }
 
-    async search(query, page, per_page) {
-        const result = await this.octokit.search.issues({q: query, sort: 'updated', order: 'desc', page: page, per_page: per_page});
+    async search(query, page, perPage) {
+        const result = await this.octokit.search.issues({q: query, sort: 'updated', order: 'desc', page: page, 'per_page': perPage});
         return Object.assign({
-            total_count: 1,
+            'total_count': 1,
             items: []
-        }, result.data)
+        }, result.data);
     }
 
     async getContent(repo, branch, file) {
         var repoInstance = Github.parseRepoUrl(repo);
-        var response = await this.octokit.repos.getContent({owner: repoInstance.user, repo: repoInstance.name, path: file, ref: branch})
+        var response = await this.octokit.repos.getContent({owner: repoInstance.user, repo: repoInstance.name, path: file, ref: branch});
         return response.data;
     }
 
@@ -41,10 +41,10 @@ class Github {
                 path: file,
                 message: 'create a new file',
                 content: new Buffer(content).toString('base64'),
-                branch: branch})
-            return response.data
+                branch: branch});
+            return response.data;
         } catch (error) {
-            throw error
+            throw error;
         }
 
     }
@@ -74,9 +74,9 @@ class Github {
                 repo: repoInstance.name,
                 title: title,
                 body: body,
-                assignee: assign, 
+                assignee: assign,
                 labels: labels
-                });
+            });
             return response.data;
         } catch (error) {
             throw error;
@@ -92,9 +92,8 @@ class Github {
                 number: number,
                 title: title,
                 body: body,
-                // assignee: assign, 
                 labels: labels
-                });
+            });
             return response.data;
         } catch (error) {
             throw error;
@@ -109,7 +108,7 @@ class Github {
                 repo: repoInstance.name,
                 number: number,
                 state: 'closed'
-                });
+            });
             return response.data;
         } catch (error) {
             throw error;
@@ -124,7 +123,7 @@ class Github {
                 repo: repoInstance.name,
                 number: number,
                 body: comment
-                });
+            });
             return response.data;
         } catch (error) {
             throw error;
@@ -137,9 +136,9 @@ class Github {
             var response = await this.octokit.issues.getEventsTimeline({
                 owner: repoInstance.user,
                 repo: repoInstance.name,
-                issue_number: number,
-                per_page: 100
-                });
+                'issue_number': number,
+                'per_page': 100
+            });
             return response.data;
         } catch (error) {
             throw error;
@@ -153,7 +152,7 @@ class Github {
                 owner: repoInstance.user,
                 repo: repoInstance.name,
                 number: number
-                });
+            });
             return response.data;
         } catch (error) {
             throw error;

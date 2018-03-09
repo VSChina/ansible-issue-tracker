@@ -1,4 +1,4 @@
-import { panic } from "./util";
+import { panic } from './util';
 
 class AbstractDataStore {
     constructor(config) {
