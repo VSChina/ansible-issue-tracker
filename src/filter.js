@@ -6,7 +6,8 @@ async function filter(id, item, observer, monitor) {
      * title,
      * rawUrl,
      * comment,
-     * labels [],
+     * labels [],       // labels you get this time
+     * storedLabels [], // labels you get last time
      * assign
      */
     if (!id) {
