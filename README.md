@@ -1,4 +1,4 @@
-# oss-issue-tracker
+# oss-issue-tracker [![Build Status](https://travis-ci.org/VSChina/ansible-issue-tracker.svg?branch=master)](https://travis-ci.org/VSChina/ansible-issue-tracker)
 This project can set up a service to sync issues and pull-requests with specified labels in a github repo, to a target repo's issue. Also you can write the filter to let the process to filter all the issues and pull-requests and add labels to your new created issues in the target repo.
 
 ## Problems you may meet when contributing to OSS project
