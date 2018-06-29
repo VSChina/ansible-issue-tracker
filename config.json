@@ -1,13 +1,13 @@
 {
     "observer": {
-        "repo": "https://github.com/ansible/Ansible",
-        "labels": ["azure"],
+        "repo": "https://github.com/Azure/azure_preview_modules",
+        "labels": [],
         "credential_name": "github_token"
     },
     "dataStore": {
         "repo": "https://github.com/VSChina/ansible-issue-tracker",
         "branch": "state",
-        "filePath": "issue-state.json",
+        "filePath": "issue-preview.json",
         "credential_name": "github_token"
     },
     "monitor": {
