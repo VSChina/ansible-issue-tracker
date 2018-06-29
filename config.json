@@ -7,7 +7,7 @@
     "dataStore": {
         "repo": "https://github.com/VSChina/ansible-issue-tracker",
         "branch": "state",
-        "filePath": "issue-preview.json",
+        "filePath": "issue-sample.json",
         "credential_name": "github_token"
     },
     "monitor": {
