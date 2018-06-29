@@ -1,6 +1,6 @@
 {
     "observer": {
-        "repo": "https://github.com/Azure/azure_preview_modules",
+        "repo": "https://github.com/Azure-Samples/ansible-playbooks",
         "labels": [],
         "credential_name": "github_token"
     },
