@@ -18,6 +18,8 @@ async function filter(id, item, observer, monitor) {
 
     var labels = item.labels;
     labels.push(item.type);
+    
+    labels.push("preview_modules");
 
     try {
         var details = await observer.getTimeline(id) || [];
