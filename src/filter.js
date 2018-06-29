@@ -19,7 +19,7 @@ async function filter(id, item, observer, monitor) {
     var labels = item.labels;
     labels.push(item.type);
     
-    labels.push("preview_modules");
+    labels.push("playbook_sample");
 
     try {
         var details = await observer.getTimeline(id) || [];
