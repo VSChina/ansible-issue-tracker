@@ -4,7 +4,7 @@ node_js:
 
 branches:
   only:
-    - preview
+    - sample
   
 install:
   - npm install
