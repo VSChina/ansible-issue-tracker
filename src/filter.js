@@ -23,7 +23,7 @@ async function filter(id, item, observer, monitor) {
         var details = await observer.getTimeline(id);
         var filtered = details.filter(function (x) {
             return (['commented', 'cross-referenced', 'merged', 'referenced', 'renamed'].indexOf(x.event) > -1
-                && ['kyliel', 'yuwzho', 'zikalino'].indexOf(x.actor.login) > -1);
+                && ['kyliel', 'yuwzho', 'zikalino', 'Fred-sun', 'yungezz'].indexOf(x.actor.login) > -1);
         });
 
         var date = details[0].updated_at || details[0].created_at;
