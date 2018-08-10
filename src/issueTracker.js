@@ -67,11 +67,11 @@ class IssueTracker {
         var [mergedData, restData] = this._mergeState(originData, apiData);
         this.monitor = new GithubMonitor(this.config.monitor);
         // 5. close restData
-        // this.closeUnnecessaryItems(restData);
+        this.closeUnnecessaryItems(restData);
         // 4. triage issues and prs
         mergedData = await this.displayItems(mergedData);
         // 6. save the latest data
-        // dataStore.save(mergedData);
+        dataStore.save(mergedData);
     }
 }
 
