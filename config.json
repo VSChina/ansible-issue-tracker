@@ -1,7 +1,7 @@
 {
     "observer": {
         "repo": "https://github.com/ansible/Ansible",
-        "labels": ["azure"],
+        "labels": ["affects_2.7", "azure", "bug", "cloud", "new_contributor", "python3"],
         "credential_name": "github_token"
     },
     "dataStore": {

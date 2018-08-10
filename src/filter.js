@@ -34,10 +34,10 @@ async function filter(id, item, observer, monitor, config) {
                 actor = x.user.login;
             }
 
-            isMaintainer = maintainers.indexOf(actor);
+            isMaintainer = (maintainers.indexOf(actor) >= 0);
 
             if (x.committer) {
-                isMaintainer = isMaintainer || maintainersEmail.indexOf(x.committer.email);
+                isMaintainer = isMaintainer || (maintainersEmail.indexOf(x.committer.email) >= 0);
             }
 
             var isAction = ['mentioned', 'subscribed'].indexOf(x.event) < 0;
@@ -92,7 +92,7 @@ async function getAssignees(monitor, id, item, maintainers) {
     if (assignees.length != 0) {
         return assignees;
     }
-    if (maintainers.indexOf(item.author)) {
+    if (maintainers.indexOf(item.author) >= 0) {
         return [item.author];
     }
     return [];
