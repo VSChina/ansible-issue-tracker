@@ -43,11 +43,11 @@ class GithubMonitor extends AbstractMonitor {
             var body = '[' + item.rawUrl + '](' + item.rawUrl + ')';
             if (!item.projectId) {
                 /* create */
-                var issue = await this.github.createIssue(this.config.repo, item.title, body, null, item.labels);
+                var issue = await this.github.createIssue(this.config.repo, item.title, body, item.assignees, item.labels);
                 item['projectId'] = issue.number;
                 console.log('create ' + issue.html_url);
             } else {
-                this.github.updateIssue(this.config.repo, item.projectId, item.title, body, item.labels);
+                this.github.updateIssue(this.config.repo, item.projectId, item.title, body, item.assignees, item.labels);
             }
 
             if (item.comment) {
@@ -64,6 +64,19 @@ class GithubMonitor extends AbstractMonitor {
         try {
             var response = await this.github.getIssueLabels(this.config.repo, number);
             return filterLabelNameFromResponse(response);
+        } catch (error) {
+            return [];
+        }
+    }
+
+    async getAssignees(number) {
+        try {
+            var response = await this.github.getAssignees(this.config.repo, number);
+            var result = [];
+            for (var i = 0; i < response.length; i++) {
+                result.push(response[i].login);
+            }
+            return result;
         } catch (error) {
             return [];
         }

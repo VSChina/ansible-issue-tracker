@@ -74,7 +74,7 @@ class Github {
                 repo: repoInstance.name,
                 title: title,
                 body: body,
-                assignee: assign,
+                assignees: assign || [],
                 labels: labels
             });
             return response.data;
@@ -83,7 +83,7 @@ class Github {
         }
     }
 
-    async updateIssue(repo, number, title, body, labels) {
+    async updateIssue(repo, number, title, body, assign, labels) {
         var repoInstance = Github.parseRepoUrl(repo);
         try {
             var response = await this.octokit.issues.edit({
@@ -92,6 +92,7 @@ class Github {
                 number: number,
                 title: title,
                 body: body,
+                assignees: assign || [],
                 labels: labels
             });
             return response.data;
@@ -157,6 +158,21 @@ class Github {
         } catch (error) {
             throw error;
         }
+    }
+
+    async getAssignees(repo, number) {
+        var repoInstance = Github.parseRepoUrl(repo);
+        try {
+            var response = await this.octokit.issues.addAssigneesToIssue({
+                owner: repoInstance.user,
+                repo: repoInstance.name,
+                number: number,
+                assignees: []
+            });
+            return response.data.assignees;
+        } catch (error) {
+            throw error;
+        } 
     }
 }
 

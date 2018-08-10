@@ -21,6 +21,7 @@ class IssueTracker {
                 url: data.html_url,
                 title: data.title,
                 type: data.pull_request ? 'pr' : 'issue',
+                author: data.user.login,
                 labels: filterLabelNameFromResponse(data.labels)
             });
             if (originData[id]) {
@@ -36,7 +37,7 @@ class IssueTracker {
             var key  = keys[i];
             var item = dicts[key];
             // details should contains: issueId, projectId, title, rawUrl, comment, labels, assign
-            var details = await filter(key, item, this.observer, this.monitor);
+            var details = await filter(key, item, this.observer, this.monitor, this.config.custom);
             if (details) {
                 dicts[key]['projectId'] = await this.monitor.createOrUpdateItem(details);
                 await timeout(5000);
@@ -66,11 +67,11 @@ class IssueTracker {
         var [mergedData, restData] = this._mergeState(originData, apiData);
         this.monitor = new GithubMonitor(this.config.monitor);
         // 5. close restData
-        this.closeUnnecessaryItems(restData);
+        // this.closeUnnecessaryItems(restData);
         // 4. triage issues and prs
         mergedData = await this.displayItems(mergedData);
         // 6. save the latest data
-        dataStore.save(mergedData);
+        // dataStore.save(mergedData);
     }
 }
 

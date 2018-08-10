@@ -1,4 +1,4 @@
-async function filter(id, item, observer, monitor) {
+async function filter(id, item, observer, monitor, config) {
     /**
      * details should contains:
      * issueId,
@@ -10,20 +10,39 @@ async function filter(id, item, observer, monitor) {
      * storedLabels [], // labels you get last time
      * assign
      */
+
     if (!id) {
         throw 'id should not be empty';
     }
 
-    var storedLables = item.storedLabels;
+    var maintainers = config.maintainers || [];
+    var maintainersEmail = config.mails || [];
+    var assignees = await getAssignees(monitor, id, item, maintainers);
 
+    var storedLables = item.storedLabels;
     var labels = item.labels;
     labels.push(item.type);
 
     try {
         var details = await observer.getTimeline(id);
         var filtered = details.filter(function (x) {
-            return (['commented', 'cross-referenced', 'merged', 'referenced', 'renamed'].indexOf(x.event) > -1
-                && ['kyliel', 'yuwzho', 'zikalino', 'Fred-sun', 'yungezz'].indexOf(x.actor.login) > -1);
+            var actor = "unknown";
+            var isMaintainer = false;
+            if (x.actor) {
+                actor = x.actor.login;
+            } else if (x.user) {
+                actor = x.user.login;
+            }
+
+            isMaintainer = maintainers.indexOf(actor);
+
+            if (x.committer) {
+                isMaintainer = isMaintainer || maintainersEmail.indexOf(x.committer.email);
+            }
+
+            var isAction = ['mentioned', 'subscribed'].indexOf(x.event) < 0;
+
+            return isAction && isMaintainer;
         });
 
         var date = details[0].updated_at || details[0].created_at;
@@ -42,13 +61,13 @@ async function filter(id, item, observer, monitor) {
             labels.push('>5days');
         } else if (notUpdatedFor >= 10 && notUpdatedFor < 30) {
             labels.push('>10days');
-        } else if (notUpdatedFor >= 30){
+        } else if (notUpdatedFor >= 30) {
             labels.push('>30days');
         }
 
         var existingLabels = await monitor.getIssueLabels(item.projectId) || [];
         // finalLabels = exiting - stored + lables
-        var finalLabels = existingLabels.filter(function(x){
+        var finalLabels = existingLabels.filter(function (x) {
             return storedLables.indexOf(x) < 0;
         }).concat(labels);
 
@@ -59,12 +78,25 @@ async function filter(id, item, observer, monitor) {
             rawUrl: item.url,
             labels: finalLabels,
             storedLabels: labels,
-            assign: '',
+            assignees: assignees,
             comment: ''
         };
     } catch (error) {
         console.error(error);
     }
 }
+
+async function getAssignees(monitor, id, item, maintainers) {
+    // set assign
+    var assignees = await monitor.getAssignees(id) || [];
+    if (assignees.length != 0) {
+        return assignees;
+    }
+    if (maintainers.indexOf(item.author)) {
+        return [item.author];
+    }
+    return [];
+}
+
 
 export { filter };
