@@ -92,7 +92,7 @@ class Github {
                 number: number,
                 title: title,
                 body: body,
-                assignees: assign || [],
+                // assignees: assign || [], ignore the update for assignees
                 labels: labels
             });
             return response.data;
