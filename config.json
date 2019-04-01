@@ -15,8 +15,8 @@
         "credential_name": "github_token"
     }, 
     "custom": {
-        "maintainers":  ["kyliel", "yuwzho", "zikalino", "Fred-sun", "yungezz"],
-        "mails": ["yuwzho@microsoft.com", "37337818+yungezz@users.noreply.github.com", "zikalino@microsoft.com"],
+        "maintainers":  ["MyronFanQiu", "yuwzho", "zikalino", "Fred-sun", "yungezz"],
+        "mails": ["yuwzho@microsoft.com", "37337818+yungezz@users.noreply.github.com", "zikalino@microsoft.com", "fanqiu@microsoft.com"],
         "ignoreLabel": ["wontfix"]
     }
 }
